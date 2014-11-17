@@ -1,5 +1,6 @@
 require 'csv'
 require_relative 'help'
+require_relative 'model'
 
 class CLI
   include Help
@@ -11,13 +12,11 @@ class CLI
      @outstream = outstream
      @command   = ''
      @converted_command = ''
+     @queue = event_attendeeslsQueue.new
   end
 
-  def load(file='event_attendees.csv')
-    path_to_file = File.expand_path("../data", __dir__)
-    file_path = File.join(path_to_file, file)
-    file = File.open(file_path, 'r')
-    data = CSV.open(file, headers: true, header_converters: :symbol)
+  def load(file_name='event_attendees.csv')
+    Model.new(file_name)
   end
 
   def call
@@ -33,7 +32,14 @@ class CLI
           help_commands.values.each { |help_command| outstream.puts help_command }
         end
       when load?
-        #code
+        @model = load(@converted_command[1])
+      when find?
+        model_search = @model.find(@converted_command[1], @converted_command[2])
+        if model_search == []
+          outstream.puts "Nothing returned"
+        else
+          @queue.add_people(model_search)
+        end
       end
     end
   end
@@ -56,5 +62,9 @@ class CLI
 
   def load?
     @converted_command[0] == 'load'
+  end
+
+  def find?
+    @converted_command[0] == 'find'
   end
 end
