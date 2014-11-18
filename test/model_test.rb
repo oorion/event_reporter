@@ -11,9 +11,9 @@ class ModelTest < Minitest::Test
     assert @model.find(:first_name, "Allison")
   end
 
-  def test_find_returns_multipule_object
-    assert_equal 2, @model.find(:first_name, "shannon").length
-  end
+  # def test_find_returns_multipule_object
+  #   assert_equal 2, @model.find(:first_name, "shannon").length
+  # end
 
   def test_finds_the_first_name
     assert_equal "allison", @model.find(:first_name, "allison").first[:first_name]

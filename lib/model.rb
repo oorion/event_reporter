@@ -1,20 +1,10 @@
 require 'pry'
+require_relative 'build_file'
 
 class Model
+  include BuildFile
+
   attr_reader :converted_csv_file
-
-  def get_file_path(file_name)
-    path_to_file = File.expand_path("../data", __dir__)
-    file_path = File.join(path_to_file, file_name)
-  end
-
-  def get_file(file_name)
-    File.open(get_file_path(file_name), 'r')
-  end
-
-  def convert_file_to_csv(file)
-    CSV.open(file, headers: true, header_converters: :symbol)
-  end
 
   def load(file_name)
     original_file = get_file(file_name)
@@ -50,6 +40,13 @@ class Model
           "#{row[:zipcode].to_s.rjust(5,"0")[0..4]}"
           ]
       end
+    end
+  end
+
+  def load_attendees(filename)
+    csv = CSV.open("./data/#{filename}", headers: true, header_converters: :symbol)
+    csv.map do |row|
+      Entry.new(row)
     end
   end
 end
