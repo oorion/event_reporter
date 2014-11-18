@@ -40,8 +40,8 @@ class Model
         csv << [
           "#{row[:_]}",
           "#{row[:regdate]}",
-          "#{row[:first_name].downcase}",
-          "#{row[:last_name].downcase}",
+          "#{row[:first_name].downcase.strip}",
+          "#{row[:last_name].downcase.strip}",
           "#{row[:email_address].downcase}",
           "#{temp_phone[0..2]}-#{temp_phone[3..5]}-#{temp_phone[6..9]}",
           "#{row[:street].downcase if row[:street] != nil}",
