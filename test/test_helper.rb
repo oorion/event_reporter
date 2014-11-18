@@ -7,5 +7,7 @@ gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'csv'
-require 'event_queue'
+
 require 'cli'
+require 'event_queue'
+require 'build_file'
