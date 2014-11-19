@@ -7,32 +7,34 @@ class Model
 
   attr_reader :converted_csv_file
 
+  def initialize
+    @entry_repository = []
+  end
+
   def load(file_name)
     csv_file = convert_file_to_csv(file_name)
-    @entry_repository = []
+    @headers = convert_header(file_name)
     csv_file.each do |row|
       @entry_repository << Entry.new(row.to_hash)
     end
-    binding.pry
 
-    original_file = get_file(file_name)
-    @headers = original_file.first.chomp.split(",")
-    original_csv_file = convert_file_to_csv(original_file)
-    normalize_csv(file_name, original_csv_file)
-    normalized_file = get_file('.temp_'+file_name)
-    @converted_csv_file = convert_file_to_csv(normalized_file)
+    # original_file = get_file(file_name)
+    # original_csv_file = convert_file_to_csv(original_file)
+    # normalize_csv(file_name, original_csv_file)
+    # normalized_file = get_file('.temp_'+file_name)
+    # @converted_csv_file = convert_file_to_csv(normalized_file)
   end
 
   def find(attribute, criteria)
-    @converted_csv_file.select do |element|
-      element[attribute.to_sym] == criteria
+    @entry_repository.select do |element|
+      element.entry[attribute.to_sym] == criteria
     end
   end
 
   def normalize_csv(file_name, original_csv_file)
     file_path = get_file_path('.temp_'+file_name)
     CSV.open(file_path, 'wb') do |csv|
-      csv << @headers
+
       original_csv_file.each do |row|
         temp_phone = row[:homephone].gsub(/[() .-]+/, '')
         csv << [

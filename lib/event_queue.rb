@@ -8,18 +8,11 @@ class EventQueue
   end
 
   def add_entries(entries)
-    people_array = convert_to_array(entries)
-    @entry_repository += people_array
-  end
-
-  def convert_to_array(people_csv)
-    people_csv.map do |csv|
-      csv.to_hash.values
-    end
+    @entry_repository = entries
   end
 
   def save(file_name)
-    #needs headers
+                                            # needs headers
     file_path = get_file_path(file_name)
     CSV.open(file_path, 'wb') do |csv|
       @entry_repository.each do |person|
@@ -33,7 +26,7 @@ class EventQueue
   end
 
   def print(outstream)
-    
+
   end
 
   def print_by

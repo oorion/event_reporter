@@ -12,4 +12,11 @@ module BuildFile
     file_path = get_file_path(file_name)
     CSV.open(file_path, headers: true, header_converters: :symbol)
   end
+
+  def convert_header(file_name)
+    file_path = get_file_path(file_name)
+    file = File.open(file_path, 'r')
+    file
+    binding.pry
+  end
 end
