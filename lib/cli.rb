@@ -50,22 +50,22 @@ class CLI
   end
 
   def find
-    model_search = @model.find(@command[1], @command[2])
-    if model_search == []
+    matches = @model.find(@command[1], @command[2])
+    if matches == []
       outstream.puts "Nothing returned"
     else
-      @queue.add_people(model_search)
+      @queue.add_entries(matches)
     end
   end
 
   def queue
     case @command[1]
     when 'save'
-      @command[2] == 'to' ? @queue.save_to : @queue.save
+      @queue.save(@command[3])
     when 'count'
-      @queue.count
+      outstream.puts @queue.count
     when 'print'
-      @command[2] == 'by' ? @queue.print_by : @queue.print
+      @command[2] == 'by' ? @queue.print_by : @queue.print(outstream)
     when 'clear'
       @queue.clear
     end
