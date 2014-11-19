@@ -51,13 +51,13 @@ class CLI
   end
 
   def find
-    matches = @model.find(@command[1], @command[2])
+    matches = @model.find(@command[1], @command[2..-1].join(" "))
     if matches == []
       outstream.puts "Nothing returned"
     else
       @queue.add_headers(@model.headers)
       @queue.add_entries(matches)
-      outstream.puts "There are #{@queue.count} results with #{@command[2]}"
+      outstream.puts "There are #{@queue.count} results with #{@command[2..-1].join(" ")}"
     end
   end
 
