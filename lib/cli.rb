@@ -47,6 +47,7 @@ class CLI
   def load
     file_name = @command[1] || 'event_attendees.csv'
     @model.load(file_name)
+    outstream.puts "Successfully loaded #{file_name}"
   end
 
   def find
@@ -54,7 +55,9 @@ class CLI
     if matches == []
       outstream.puts "Nothing returned"
     else
+      @queue.add_headers(@model.headers)
       @queue.add_entries(matches)
+      outstream.puts "There are #{@queue.count} results with #{@command[2]}"
     end
   end
 
@@ -65,7 +68,7 @@ class CLI
     when 'count'
       outstream.puts @queue.count
     when 'print'
-      @command[2] == 'by' ? @queue.print_by : @queue.print(outstream)
+      @command[2] == 'by' ? @queue.print_by(outstream, @command[3]) : @queue.print(outstream)
     when 'clear'
       @queue.clear
     end

@@ -1,4 +1,5 @@
 class Entry
+  attr_reader :entry
   def initialize(entry)
     @entry = format(entry)
   end
@@ -31,7 +32,7 @@ class Entry
   end
 
   def normalize(name)
-    name.strip.downcase
+    name.strip.downcase if name != nil
   end
 
   def normalize_zip(zip)
