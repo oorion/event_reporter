@@ -1,5 +1,6 @@
 require 'pry'
 require_relative 'build_file'
+require_relative 'entry'
 
 class Model
   include BuildFile
@@ -7,6 +8,13 @@ class Model
   attr_reader :converted_csv_file
 
   def load(file_name)
+    csv_file = convert_file_to_csv(file_name)
+    @entry_repository = []
+    csv_file.each do |row|
+      @entry_repository << Entry.new(row.to_hash)
+    end
+    binding.pry
+
     original_file = get_file(file_name)
     @headers = original_file.first.chomp.split(",")
     original_csv_file = convert_file_to_csv(original_file)

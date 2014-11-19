@@ -6,12 +6,12 @@ class EventQueueTest < Minitest::Test
     @csv_file = CSV.open(file, headers: true, header_converters: :symbol)
     @matches = @csv_file.map { |n| n }
     @queue = EventQueue.new
-    @queue.add_people(@matches)
+    @queue.add_entry(@matches)
   end
 
   def test_has_converted_CSVs
     converted_matches = @matches.map { |n| n.to_hash.values }
-    assert_equal converted_matches, @queue.people
+    assert_equal converted_matches, @queue.entry_repository
   end
 
   # def test_can_save_to_a_file
