@@ -5,7 +5,7 @@ require_relative 'entry'
 class Model
   include BuildFile
 
-  attr_reader :converted_csv_file
+  attr_reader :entry_repository, :headers
 
   def initialize
     @entry_repository = []
@@ -58,5 +58,13 @@ class Model
     csv.map do |row|
       Entry.new(row)
     end
+  end
+
+  def convert_header(file_name)
+    file_path = get_file_path(file_name)
+    header = CSV.open(file_path,'r').first
+    capital_headers = header.map { |h| h.upcase }
+    capital_headers.shift(2)
+    capital_headers
   end
 end
