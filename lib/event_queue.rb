@@ -17,12 +17,20 @@ class EventQueue
   end
 
   def save(file_name)
-                                            # needs headers
     file_path = get_file_path(file_name)
     CSV.open(file_path, 'wb') do |csv|
-      @entry_repository.each do |person|
-        csv << person
+      csv << @printable_headers
+      add_csv_elements(csv)
+    end
+  end
+
+  def add_csv_elements(csv)
+    @entry_repository.map do |element|
+      row = []
+      element.entry.each do |key, val|
+        row << val
       end
+      csv << row
     end
   end
 

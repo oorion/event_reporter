@@ -3,6 +3,7 @@ event_reporter
 
 Created by Kit Pearson and Orion Osborn.  This is the first paired project at the Turing School of Software and Design (week 4).
 
+_error while loading non-default file
 
 _Queue print method
 
@@ -26,4 +27,3 @@ CSV.foreach("File") do
 _Give` error if cli command is invalid
 
 _Give feed back on sucsessfull commands *
-

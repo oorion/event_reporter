@@ -31,27 +31,27 @@ class Model
     end
   end
 
-  def normalize_csv(file_name, original_csv_file)
-    file_path = get_file_path('.temp_'+file_name)
-    CSV.open(file_path, 'wb') do |csv|
-
-      original_csv_file.each do |row|
-        temp_phone = row[:homephone].gsub(/[() .-]+/, '')
-        csv << [
-          "#{row[:_]}",
-          "#{row[:regdate]}",
-          "#{row[:first_name].downcase.strip}",
-          "#{row[:last_name].downcase.strip}",
-          "#{row[:email_address].downcase}",
-          "#{temp_phone[0..2]}-#{temp_phone[3..5]}-#{temp_phone[6..9]}",
-          "#{row[:street].downcase if row[:street] != nil}",
-          "#{row[:city].downcase if row[:city] != nil}",
-          "#{row[:state].downcase if row[:state] != nil}",
-          "#{row[:zipcode].to_s.rjust(5,"0")[0..4]}"
-          ]
-      end
-    end
-  end
+  # def normalize_csv(file_name, original_csv_file)
+  #   file_path = get_file_path('.temp_'+file_name)
+  #   CSV.open(file_path, 'wb') do |csv|
+  #
+  #     original_csv_file.each do |row|
+  #       temp_phone = row[:homephone].gsub(/[() .-]+/, '')
+  #       csv << [
+  #         "#{row[:_]}",
+  #         "#{row[:regdate]}",
+  #         "#{row[:first_name].downcase.strip}",
+  #         "#{row[:last_name].downcase.strip}",
+  #         "#{row[:email_address].downcase}",
+  #         "#{temp_phone[0..2]}-#{temp_phone[3..5]}-#{temp_phone[6..9]}",
+  #         "#{row[:street].downcase if row[:street] != nil}",
+  #         "#{row[:city].downcase if row[:city] != nil}",
+  #         "#{row[:state].downcase if row[:state] != nil}",
+  #         "#{row[:zipcode].to_s.rjust(5,"0")[0..4]}"
+  #         ]
+  #     end
+  #   end
+  # end
 
   def load_attendees(filename)
     csv = CSV.open("./data/#{filename}", headers: true, header_converters: :symbol)
