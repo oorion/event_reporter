@@ -27,7 +27,7 @@ class CLI
       when help?
         help
       when load?
-        load
+        execute_load
       when find?
         find
       when queue?
@@ -44,9 +44,8 @@ class CLI
     end
   end
 
-  def load
+  def execute_load
     file_name = @command[1] || 'event_attendees.csv'
-    binding.pry
     @model.load(file_name)
     outstream.puts "Successfully loaded #{file_name}"
   end
@@ -76,8 +75,7 @@ class CLI
   end
 
   def execute_print
-    #@queue.print_by(outstream, @command[3])
-    command_includes_by? ? print_by(by_filter) : @queue.print(outstream)
+    command_includes_by? ? print_by(by_filter) : print
   end
 
   def command_includes_by?
@@ -90,6 +88,10 @@ class CLI
 
   def print_by(command)
     @queue.print_by(outstream, command)
+  end
+
+  def print
+    @queue.print(outstream)
   end
 
   def prompt
@@ -118,9 +120,5 @@ class CLI
 
   def queue?
     @command[0] == 'queue'
-  end
-
-  def save?
-
   end
 end

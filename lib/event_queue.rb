@@ -25,10 +25,11 @@ class EventQueue
   end
 
   def add_csv_elements(csv)
-    @entry_repository.map do |element|
+    @entry_repository.each do |element|
       row = []
-      element.entry.each do |key, val|
-        row << val
+      @printable_headers.each do |header|
+        converted_header = header.downcase.to_sym
+        row << element.entry[converted_header]
       end
       csv << row
     end
