@@ -21,7 +21,7 @@ class CLI
   def call
     until quit?
       outstream.print prompt
-      input = instream.gets.chomp.downcase #normalize_input
+      input = instream.gets.chomp.downcase
       @command = convert_command(input)
       case
       when help?
@@ -64,11 +64,11 @@ class CLI
   def queue
     case @command[1]
     when 'save'
-      @queue.save(@command[3])
+      @queue.save(@command[3]) #if queue_empty?
     when 'count'
       outstream.puts @queue.count
     when 'print'
-      execute_print
+      execute_print #if queue_empty?
     when 'clear'
       @queue.clear
     end
@@ -121,4 +121,8 @@ class CLI
   def queue?
     @command[0] == 'queue'
   end
+
+  # def queue_empty?
+  #   queue.entry_repository.length != 0
+  # end
 end
