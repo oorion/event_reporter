@@ -26,7 +26,7 @@ class Entry
       when :state
         entry[key] = normalize(val)
       when :zipcode
-        entry[key] = normalize(val)
+        entry[key] = normalize_zip(val)
       end
     end
   end

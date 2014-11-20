@@ -21,7 +21,7 @@ class CLI
   def call
     until quit?
       outstream.print prompt
-      input = instream.gets.chomp.downcase
+      input = instream.gets.chomp.downcase #normalize_input
       @command = convert_command(input)
       case
       when help?
@@ -46,6 +46,7 @@ class CLI
 
   def load
     file_name = @command[1] || 'event_attendees.csv'
+    binding.pry
     @model.load(file_name)
     outstream.puts "Successfully loaded #{file_name}"
   end
@@ -68,10 +69,27 @@ class CLI
     when 'count'
       outstream.puts @queue.count
     when 'print'
-      @command[2] == 'by' ? @queue.print_by(outstream, @command[3]) : @queue.print(outstream)
+      execute_print
     when 'clear'
       @queue.clear
     end
+  end
+
+  def execute_print
+    #@queue.print_by(outstream, @command[3])
+    command_includes_by? ? print_by(by_filter) : @queue.print(outstream)
+  end
+
+  def command_includes_by?
+    @command[2] == 'by'
+  end
+
+  def by_filter
+    @command[3]
+  end
+
+  def print_by(command)
+    @queue.print_by(outstream, command)
   end
 
   def prompt

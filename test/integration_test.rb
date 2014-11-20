@@ -9,6 +9,7 @@ class IntegrationTest < Minitest::Test
   end
 
   def test_queue_can_print
+    skip
     instream = StringIO.new("load\nfind first_name Shiyu\nqueue print\nquit\n")
     outstream = StringIO.new
     cli = CLI.new(instream, outstream).call
