@@ -4,18 +4,20 @@ module BuildFile
     file_path = File.join(path_to_file, file_name)
   end
 
-  # def get_file(file_name)
-  #   File.open(get_file_path(file_name), 'r')
-  # end
+  def convert_saved_file_header(file_name)
+    file_path = get_file_path(file_name)
+    header = CSV.open(file_path,'r').first
+    capital_headers = header.map { |h| h.upcase }
+  end
+
+  def convert_original_header(file_name)
+    capital_headers = convert_saved_file_header(file_name)
+    capital_headers.shift(2)
+    capital_headers
+  end
 
   def convert_file_to_csv(file_name)
     file_path = get_file_path(file_name)
     CSV.open(file_path, headers: true, header_converters: :symbol)
   end
-
-  # def convert_header(file_name)
-  #   file_path = get_file_path(file_name)
-  #   file = File.open(file_path, 'r')
-  #   file
-  # end
 end
